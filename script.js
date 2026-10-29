@@ -227,7 +227,7 @@ async function showPaymentPage(orderId) {
   if (error) { showError(error, "Could not load order payment."); return; }
   $("#paymentOrderId").textContent = data.id;
   $("#paymentOrderTotal").textContent = `Total to pay: ${money(data.total_amount)}`;
-  const qrisUrl = window.SENIORSHELF_CONFIG?.QRIS_IMAGE_URL || "assets/qris.png";
+  const qrisUrl = window.SENIORSHELF_CONFIG?.QRIS_IMAGE_URL || "assets/qris.jpeg";
   $("#qrisDisplay").innerHTML = `<img src="${escapeHTML(qrisUrl)}" alt="SeniorShelf QRIS payment code" onerror="this.remove(); this.parentElement.textContent='Add your QRIS image as assets/qris.png, then redeploy.';" style="max-width:100%;max-height:360px;object-fit:contain">`;
   setPage("payment");
 }
