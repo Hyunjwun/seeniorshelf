@@ -227,7 +227,7 @@ async function showPaymentPage(orderId) {
   if (error) { showError(error, "Could not load order payment."); return; }
   $("#paymentOrderId").textContent = data.id;
   $("#paymentOrderTotal").textContent = `Total to pay: ${money(data.total_amount)}`;
-  const qrisUrl = window.SENIORSHELF_CONFIG?.QRIS_IMAGE_URL || "assets/qris.jpeg";
+  const qrisUrl = window.SENIORSHELF_CONFIG?.QRIS_IMAGE_URL || "assets/qris.png";
   $("#qrisDisplay").innerHTML = `<img src="${escapeHTML(qrisUrl)}" alt="SeniorShelf QRIS payment code" onerror="this.remove(); this.parentElement.textContent='Add your QRIS image as assets/qris.png, then redeploy.';" style="max-width:100%;max-height:360px;object-fit:contain">`;
   setPage("payment");
 }
@@ -247,7 +247,8 @@ async function submitPaymentProof(event) {
   const button=event.submitter; setBusy(button,true,'UPLOADING…');
   try {
     const path=`${currentUser.id}/${activeOrderId}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;
-    const {error:uploadError}=await getClient().storage.from('payment-proofs').upload(path,file,{upsert:true,contentType:file.type}); if(uploadError) throw uploadError;
+
+const {error:uploadError}=await getClient().storage.from('payment-proofs').upload(path,file,{upsert:false,contentType:file.type}); if(uploadError) throw uploadError;
     const {error}=await getClient().rpc('submit_payment_proof',{p_order_id:activeOrderId,p_proof_path:path}); if(error) throw error;
     notify('Proof submitted. Your order is waiting for admin review.'); setPage('orders');
   } catch(error){showError(error,'Could not submit payment proof.');}
