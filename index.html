@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SeniorShelf — Second Life for School Things</title>
+<link rel="icon" type="image/png" href="./assets/favicon.png?v=2">  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="logged-out">
+  <header class="topbar">
+    <a class="brand" href="#" id="brand">
+      <img src="assets/Logo.png"
+          alt="President University Logo"
+          class="university-logo">
+          President University
+    </a>
+
+    <nav id="navigation" class="navigation hidden">
+      <button data-page="home" class="nav-link active">Home</button>
+      <button data-page="level" class="nav-link">Level</button>
+      <button data-page="inbox" class="nav-link">Inbox <i id="inboxCount">0</i></button>
+      <button data-page="cart" class="nav-link">Cart <i id="cartCount">0</i></button>
+      <button data-page="sell" class="nav-link seller-only hidden">Sell ↗</button>
+    </nav>
+
+    <div class="account-links" id="accountLinks">
+      <button id="headerLogin" class="text-link">LOGIN ↗</button>
+      <button id="headerSignup" class="text-link">MAKE AN ACCOUNT ↗</button>
+    </div>
+
+    <div class="user-tools hidden" id="userTools">
+      <button id="switchRole" class="text-link">BUYER ↻</button>
+      <button id="logout" class="text-link">LOG OUT ↗</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- LANDING: visible before login -->
+    <section id="landingPage" class="page landing-page">
+      <span class="sticker sticker-yellow">GOOD THINGS<br>DESERVE A<br>SECOND LIFE :)</span>
+      <div class="landing-center">
+        <p class="eyebrow">A COMMUNITY SECONDHAND MARKETPLACE</p>
+        <h1 class="landing-logo">SeniorShelf<span>✳</span></h1>
+          <h2 class="welcome-text">
+              <span id="typedText">Welcome</span><span class="typing-cursor">|</span>
+          </h2>
+        <p class="landing-copy">your trash<br>is someone's treasure</p>
+        <div class="landing-actions">
+          <button id="landingLogin" class="big-link">LOGIN ↗</button>
+          <span>/</span>
+          <button id="landingSignup" class="big-link">MAKE AN ACCOUNT ↗</button>
+        </div>
+      </div>
+      <div class="collage-card collage-left">
+        <span class="sun-symbol">✳</span>
+        <small>FIG. 01 — PASS IT ON</small>
+      </div>
+      <div class="collage-card collage-right">
+        SECOND<br>HAND<br>STILL<br>LOVELY.
+        <small>FOUND & READY</small>
+      </div>
+      <div class="landing-footer"><span>BUY · SELL · REUSE</span><span>SENIORSHELF © 2026</span></div>
+    </section>
+
+    <!-- HOME: product catalogue -->
+    <section id="homePage" class="page hidden">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">PRE-LOVED SCHOOL ESSENTIALS</p>
+          <h1>Find your next <em>good thing.</em></h1>
+          <p>Good finds, better prices, another life.</p>
+        </div>
+        <span class="issue-label">ISSUE NO. 001<br>YPUP COMMUNITY</span>
+      </div>
+
+      <div class="shop-tools">
+        <input id="searchInput" type="search" placeholder="Search items..." aria-label="Search items">
+        <select id="categoryFilter" aria-label="Filter category">
+          <option value="All">All categories</option>
+          <option>Uniforms</option><option>Books</option>
+          <option>Stationery</option><option>Bags</option><option>Other</option>
+        </select>
+        <select id="levelFilter" aria-label="Filter school level">
+          <option value="All">All levels</option>
+          <option>SD</option><option>SMP</option><option>SMA</option>
+          <option>SMK</option><option>University</option>
+        </select>
+      </div>
+
+      <div class="section-label"><span>THE SHELF / ITEMS TO LOVE AGAIN</span><span id="resultCount">0 ITEMS</span></div>
+      <div id="productGrid" class="product-grid"></div>
+      <p id="emptyProducts" class="empty-state hidden">Nothing here yet. Try another search!</p>
+    </section>
+
+    <!-- LEVEL: a separate screen -->
+    <section id="levelPage" class="page hidden">
+      <button class="back-button" data-back="home">← BACK TO HOME</button>
+      <div class="page-heading">
+        <div><p class="eyebrow">FIND YOUR SCHOOL COMMUNITY</p><h1>Pick your <em>level.</em></h1>
+        <p>See items that match your school level.</p></div>
+      </div>
+      <div class="level-grid">
+        <button class="level-tile" data-level="SD"><span>01</span><strong>SD</strong><small>Elementary school</small>↗</button>
+        <button class="level-tile" data-level="SMP"><span>02</span><strong>SMP</strong><small>Junior high school</small>↗</button>
+        <button class="level-tile" data-level="SMA"><span>03</span><strong>SMA</strong><small>Senior high school</small>↗</button>
+        <button class="level-tile" data-level="SMK"><span>04</span><strong>SMK</strong><small>Vocational school</small>↗</button>
+        <button class="level-tile" data-level="University"><span>05</span><strong>University</strong><small>College essentials</small>↗</button>
+      </div>
+      <div class="profile-level">
+        <h2>Your school info</h2>
+        <div class="inline-fields">
+          <label>MY LEVEL<select id="profileLevel"><option>SD</option><option>SMP</option><option>SMA</option><option>SMK</option><option>University</option></select></label>
+          <label>GRADE / YEAR<input id="profileGrade" placeholder="e.g. Grade 11"></label>
+          <label>SEMESTER<input id="profileSemester" type="number" min="1" max="14" placeholder="e.g. 2"></label>
+          <button id="saveProfile" class="solid-button">SAVE INFO ↗</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELL: listing form -->
+    <section id="sellPage" class="page hidden">
+      <button class="back-button" data-back="home">← BACK TO HOME</button>
+      <div class="page-heading">
+        <div><p class="eyebrow">PASS IT ON</p><h1>List a <em>good find.</em></h1>
+        <p>Give your school essentials a second life.</p></div>
+      </div>
+      <form id="sellForm" class="sell-form">
+        <label class="photo-upload" for="itemPhoto">
+          <span id="photoPreview">＋</span>
+          <strong>ADD ITEM PHOTO</strong><small>Click to choose an image</small>
+          <input id="itemPhoto" type="file" accept="image/*" required>
+        </label>
+        <div class="form-fields">
+          <label>ITEM NAME<input id="itemName" required maxlength="80" placeholder="e.g. White school shirt"></label>
+          <label>CATEGORY<select id="itemCategory"><option>Uniforms</option><option>Books</option><option>Stationery</option><option>Bags</option><option>Other</option></select></label>
+          <label>SCHOOL LEVEL<select id="itemLevel"><option>SD</option><option>SMP</option><option>SMA</option><option>SMK</option><option>University</option></select></label>
+          <label>GRADE / YEAR<input id="itemGrade" placeholder="e.g. Grade 11"></label>
+          <label>CONDITION<select id="itemCondition"><option>Like new</option><option>Very good</option><option>Good</option><option>Fair</option></select></label>
+          <label>PRICE (RP)<input id="itemPrice" type="number" min="1000" required placeholder="e.g. 35000"></label>
+          <label class="full-field">DESCRIPTION<textarea id="itemDescription" rows="3" required placeholder="Size, condition, and other details..."></textarea></label>
+          <button class="solid-button full-field" type="submit">PUBLISH LISTING ↗</button>
+        </div>
+      </form>
+      <section class="seller-dashboard">
+        <div class="section-label"><span>YOUR LISTINGS</span><span>MANAGE YOUR ITEMS</span></div>
+        <div id="myListings" class="list-panel"></div>
+        <div class="section-label"><span>PRICE OFFERS</span><span>REVIEW BUYER OFFERS</span></div>
+        <div id="sellerOffers" class="list-panel"></div>
+      </section>
+    </section>
+
+    <!-- CART -->
+    <section id="cartPage" class="page hidden">
+      <button class="back-button" data-back="home">← BACK TO HOME</button>
+      <div class="page-heading"><div><p class="eyebrow">YOUR SAVED FINDS</p><h1>The <em>cart.</em></h1><p>Items you might want to take home.</p></div></div>
+      <div id="cartItems" class="list-panel"></div>
+      <div id="cartSummary" class="cart-summary"></div>
+    </section>
+
+    <!-- INBOX -->
+    <section id="inboxPage" class="page hidden">
+      <button class="back-button" data-back="home">← BACK TO HOME</button>
+      <div class="page-heading"><div><p class="eyebrow">LET'S TALK DETAILS</p><h1>Your <em>inbox.</em></h1><p>Chats unlock after checkout is recorded.</p></div></div>
+      <div id="inboxContent" class="list-panel"></div>
+    </section>
+
+    <!-- PRODUCT DETAIL -->
+    <section id="detailPage" class="page hidden">
+      <button class="back-button" data-back="home">← BACK TO HOME</button>
+      <div id="productDetail"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span>SeniorShelf ✳</span><span>SECONDHAND, NOT SECOND BEST.</span></footer>
+
+  <!-- Login / signup modal -->
+  <div id="authModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal-backdrop" data-close="auth"></div>
+    <div class="modal-card">
+      <button class="modal-close" data-close="auth" aria-label="Close">×</button>
+      <p class="eyebrow">WELCOME TO THE SHELF</p>
+      <h2 id="authTitle">Come on <em>in.</em></h2>
+      <p id="authIntro">Your next good find is waiting.</p>
+      <form id="authForm">
+        <div id="nameWrap" class="hidden"><label>YOUR NAME<input id="authName" placeholder="Your name"></label></div>
+        <div id="roleWrap" class="hidden">
+          <label>I WANT TO JOIN AS
+            <select id="authRole"><option value="buyer">Buyer</option><option value="seller">Seller</option></select>
+          </label>
+        </div>
+        <label>EMAIL OR USERNAME<input id="authUsername" required autocomplete="username" placeholder="hello@email.com"></label>
+        <label>PASSWORD<input id="authPassword" type="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters"></label>
+        <button id="authSubmit" class="solid-button" type="submit">LOGIN ↗</button>
+      </form>
+      <p class="auth-switch" id="authSwitch">New here? <button id="switchToSignup">Make an account ↗</button></p>
+      <p class="fine-print">Your account is managed securely by Supabase.</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
